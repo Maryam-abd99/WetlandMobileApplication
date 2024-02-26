@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "182335270449",
+    "project_id": "alansabwetlandapplication",
+    "storage_bucket": "alansabwetlandapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182335270449:android:23dc398b9e76e86ee9ef10",
+        "android_client_info": {
+          "package_name": "com.example.alansab_wetland_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVEZJ_I9TNwivxF-7KVejXRzoEqPZuSoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -337,6 +337,9 @@ class _RegisterPageState extends State<RegisterPage> {
             Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName)); // Navigate back to the main page
             return;
           }
+          if (newIndex == 3) { // Check if the 'Profile' item is clicked
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+          }
           setState(() {
             currentIndex = newIndex;
           });

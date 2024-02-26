@@ -1,8 +1,18 @@
 import 'package:alansab_wetland_app/screens/registration.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'registration.dart';
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: 'AIzaSyBVEZJ_I9TNwivxF-7KVejXRzoEqPZuSoU',
+        appId: '1:182335270449:android:23dc398b9e76e86ee9ef10',
+        messagingSenderId: '182335270449',
+        projectId: 'alansabwetlandapplication'
+    )
+  );
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -31,11 +41,13 @@ class _MainPageState extends State<MainPage> {
     heightSize = MediaQuery.of(context).size.height;
     return Scaffold(
         drawer: Drawer(
+          backgroundColor: Color(0xFF46923c),
           child: ListView(),
         ),
         appBar: AppBar(
-          // leading: Icon(Icons.menu, color: Color(0xFF46923c)),
-          actions: [Icon(Icons.search, color: Color(0xFF46923c)),SizedBox(width: widthSize*0.03,)],
+          iconTheme: IconThemeData(color: Color(0xFF46923c)),
+          // leading: Icon(Icons.menu,color: Color(0xFF46923c),),
+          // title: Text("Welcome User",style: TextStyle(color: Color(0xFF46923c)),),
           backgroundColor: Colors.transparent,
           elevation: 0, // to remove the shadow
 
@@ -181,13 +193,13 @@ class _MainPageState extends State<MainPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_rounded, color: Colors.white),
-              label: 'Camera',
-              tooltip: 'Open Camera',
+              label: 'Scan',
+              tooltip: 'Scan QR code',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings, color: Colors.white),
-              label: 'Setting',
-              tooltip: 'View Settings',
+              icon: Icon(Icons.not_interested_rounded, color: Colors.white),
+              label: '????',
+              tooltip: 'Show/Provide feedback',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.white),
