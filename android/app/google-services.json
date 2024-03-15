@@ -12,7 +12,20 @@
           "package_name": "com.example.alansab_wetland_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "182335270449-ku7j88pef7fc1pqolo2lo1voi84p8vpf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alansab_wetland_app",
+            "certificate_hash": "9cb49fdf9d571c7122bb622cd858a4985d567e52"
+          }
+        },
+        {
+          "client_id": "182335270449-64v2krfo7cb4rdob4mshgsu8coiapqjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBVEZJ_I9TNwivxF-7KVejXRzoEqPZuSoU"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182335270449-64v2krfo7cb4rdob4mshgsu8coiapqjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

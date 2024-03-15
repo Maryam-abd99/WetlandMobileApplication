@@ -1,31 +1,28 @@
 import 'package:alansab_wetland_app/screens/registration.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'registration.dart';
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-        apiKey: 'AIzaSyBVEZJ_I9TNwivxF-7KVejXRzoEqPZuSoU',
-        appId: '1:182335270449:android:23dc398b9e76e86ee9ef10',
-        messagingSenderId: '182335270449',
-        projectId: 'alansabwetlandapplication'
-    )
-  );
-  runApp(const MyApp());
+import 'package:firebase_core/firebase_core.dart';
+import 'screens/login.dart';
+import 'screens/registration.dart';
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,  //to remove the debug line
         home: MainPage(),
     );
   }
 }
+
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -41,13 +38,79 @@ class _MainPageState extends State<MainPage> {
     heightSize = MediaQuery.of(context).size.height;
     return Scaffold(
         drawer: Drawer(
-          backgroundColor: Color(0xFF46923c),
-          child: ListView(),
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image(image: AssetImage('assets/images/person.png'),),
+                    SizedBox(height: heightSize*0.01,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Maryam Abdullah", style: TextStyle(fontSize: 22,),),
+                          Text("maryam@gmail.com",style: TextStyle(fontSize: 14),),
+                        ],
+                      ),
+
+                    ),
+
+
+                  ],
+                ),
+              ),
+              SizedBox(height: heightSize*0.002,),
+              //home
+              ListTile(
+                leading: Icon(Icons.home_outlined,size: 30,color: Color(0xFF46923c),),
+                title: Text("Home",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              //profile
+              ListTile(
+                leading: Icon(Icons.account_circle_outlined,size: 30,color: Color(0xFF46923c),),
+                title: Text("Profile",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              //book
+              ListTile(
+                leading: Icon(Icons.edit_calendar_sharp,size: 30,color: Color(0xFF46923c),),
+                title: Text("Book",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              new Divider(),
+              //scan
+              ListTile(
+                leading: Icon(Icons.qr_code_scanner,size: 30,color: Color(0xFF46923c),),
+                title: Text("Scan",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              //book
+              ListTile(
+                leading: Icon(Icons.search,size: 30,color: Color(0xFF46923c),),
+                title: Text("Search",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              //FAQ
+              ListTile(
+                leading: Icon(Icons.question_answer_outlined,size: 30,color: Color(0xFF46923c),),
+                title: Text("FAQ",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              new Divider(),
+              //about us
+              ListTile(
+                leading: Icon(Icons.help_center_outlined,size: 30,color: Color(0xFF46923c),),
+                title: Text("About Us",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+              //logout
+              ListTile(
+                leading: Icon(Icons.logout,size: 30,color: Color(0xFF46923c),),
+                title: Text("Logout",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),
+              ),
+            ],
+          ),
         ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Color(0xFF46923c)),
-          // leading: Icon(Icons.menu,color: Color(0xFF46923c),),
-          // title: Text("Welcome User",style: TextStyle(color: Color(0xFF46923c)),),
+          // title: Text("Welcome user",style: TextStyle(),),
           backgroundColor: Colors.transparent,
           elevation: 0, // to remove the shadow
 
@@ -214,4 +277,5 @@ class _MainPageState extends State<MainPage> {
   }
 
 }
+
 

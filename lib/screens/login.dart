@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'forgetPassword.dart';
+import '../main.dart';
 import 'registration.dart';
 
 
@@ -12,11 +14,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  Future signIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainPage()));
+      // .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   int currentIndex = 3;
   double widthSize = 0.0;
   double heightSize = 0.0;
   bool secureText = true;
-  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -60,13 +80,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text('Username', style: TextStyle(fontWeight:FontWeight.bold,fontSize: widthSize*0.045,),
                 )
             ),
-            //Username
-            Container(
+            //Email
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: TextField(
+                controller: emailController,
                 cursorColor: Colors.green,
                 decoration: InputDecoration(
+                  hintText: "Enter your email",
+                  hintStyle: TextStyle(fontSize: 15),
                   contentPadding: EdgeInsets.only(left: 30),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(50),),
                   enabledBorder: OutlineInputBorder(
@@ -90,13 +113,15 @@ class _LoginPageState extends State<LoginPage> {
                 )
             ),
             //Password
-            Container(
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: TextField(
                 controller: passwordController,
                 cursorColor: Colors.green,
                 decoration: InputDecoration(
+                    hintText: "Enter your password",
+                    hintStyle: TextStyle(fontSize: 15),
                     contentPadding: EdgeInsets.only(left: 30),
                     border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -206,12 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Color(0xFF054C94),fontWeight: FontWeight.bold),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterPage(),
-                          ),
-                        );
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (contaxt)=> RegisterPage()));
                       },
                   ),
                 ],
@@ -251,12 +271,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_rounded, color: Colors.white),
-              label: 'Camera',
+              label: 'Scan',
               tooltip: 'Open Camera',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings, color: Colors.white),
-              label: 'Setting',
+              label: '???',
               tooltip: 'View Settings',
             ),
             BottomNavigationBarItem(

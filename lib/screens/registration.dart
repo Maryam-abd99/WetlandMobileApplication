@@ -1,5 +1,8 @@
 import 'package:alansab_wetland_app/screens/login.dart';
+import 'package:alansab_wetland_app/main.dart';
 import 'package:alansab_wetland_app/screens/termsAndCondition.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
   int currentIndex = 3;
   double widthSize = 0.0;
   double heightSize = 0.0;
@@ -18,8 +22,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     bool secureText = true;
     bool agreedToTerms = false;
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
+    final fNameController = TextEditingController();
+    final lNameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
+
     widthSize = MediaQuery.of(context).size.width;
     heightSize = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -28,8 +37,8 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //1 text
             SizedBox(height: heightSize*0.08,),
+            //main text
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -49,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: heightSize*0.04,),
             //text first and last name
-            Container(
+            SizedBox(
               height: heightSize*0.055,
               child: (
                   Row(
@@ -78,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             //first and last name
-            Container(
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: (
@@ -86,9 +95,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     Expanded(
                         child: TextField(
+                          controller: fNameController,
                           keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.green,
                           decoration: InputDecoration(
+                            hintText: "First name",
+                            hintStyle: TextStyle(fontSize: 15),
                             contentPadding: EdgeInsets.only(left: 30),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(50),),
                             enabledBorder: OutlineInputBorder(
@@ -104,9 +116,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(width: widthSize*0.03,),
                     Expanded(
                       child: TextField(
+                        controller: lNameController,
                         keyboardType: TextInputType.emailAddress,
                         cursorColor: Colors.green,
                         decoration: InputDecoration(
+                          hintText: "Last name",
+                          hintStyle: TextStyle(fontSize: 15),
                           contentPadding: EdgeInsets.only(left: 30),
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(50),),
                           enabledBorder: OutlineInputBorder(
@@ -132,14 +147,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 )
             ),
             //Email
-            Container(
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: TextField(
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 cursorColor: Colors.green,
                 decoration: InputDecoration(
                   hintText: "Enter your email",
+                  hintStyle: TextStyle(fontSize: 15),
                   contentPadding: EdgeInsets.only(left: 30),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(50),),
                   enabledBorder: OutlineInputBorder(
@@ -163,13 +180,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 )
             ),
             //Password
-            Container(
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: TextField(
                 controller: confirmPasswordController,
                 cursorColor: Colors.green,
                 decoration: InputDecoration(
+                    hintText: "Enter your password",
+                    hintStyle: TextStyle(fontSize: 15),
                     contentPadding: EdgeInsets.only(left: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -203,13 +222,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 )
             ),
             //Confirm password
-            Container(
+            SizedBox(
               width: widthSize*0.8,
               height: heightSize*0.065,
               child: TextField(
                 controller: passwordController,
                 cursorColor: Colors.green,
                 decoration: InputDecoration(
+                    hintText: "Enter confirm password",
+                    hintStyle: TextStyle(fontSize: 15),
                     contentPadding: EdgeInsets.only(left: 30),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -275,8 +296,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: ElevatedButton(
-                onPressed: () {
-                  //Register functionality here
+                onPressed: () async {
+                  try {
+                    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contaxt)=> MainPage()));
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      print('============================The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('=========================The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
                 },
                 child: Text(
                   'Register',
